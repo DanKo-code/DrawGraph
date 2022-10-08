@@ -1,0 +1,149 @@
+#include <iostream>
+#include <list>
+#include <vector>
+
+using namespace std;
+
+	class Node
+	{
+	public:
+		Node(int data = 0, Node* FirstNext = nullptr, Node* SecondNext = nullptr, Node* ThirdNext = nullptr)
+		{
+			this->data = data;
+
+			this->FirstNext = FirstNext;
+			this->SecondNext = SecondNext;
+			this->ThirdNext = ThirdNext;
+		}
+
+		int data;
+
+		Node* FirstNext;
+		Node* SecondNext;
+		Node* ThirdNext;
+
+	};
+
+	vector<Node> BreadthFirstSearch(Node* Start)
+	{
+		list<Node> InQueue;
+		vector<Node> VisitedNodes;
+
+		InQueue.push_back(*Start);
+
+		// Проверка на совпадение с посещенными узлами и узлами в очереди(листе)
+		auto Check_For_Repeat = [&](Node& test)
+		{
+			for (int i = 0; i < VisitedNodes.size(); i++)
+			{
+				if (test.data == VisitedNodes[i].data) return true;
+			}
+
+			// Проверка на совпадение с временным содержимым очереди(листа)
+			for (auto j = InQueue.begin(); j != InQueue.end(); j++)
+			{
+				if (test.data == (*j).data) return true;
+			}
+
+			return false;
+		};
+
+		for (;;)
+		{
+			if ( (InQueue.front().FirstNext!=nullptr) && (InQueue.front().SecondNext != nullptr) && (InQueue.front().ThirdNext != nullptr) )
+			{
+				if ( !(Check_For_Repeat(*InQueue.front().FirstNext)) )
+				{
+					InQueue.push_back(*InQueue.front().FirstNext);
+				}
+				
+				if ( !(Check_For_Repeat(*InQueue.front().SecondNext)) )
+				{
+					InQueue.push_back(*InQueue.front().SecondNext);
+				}
+
+				if (!(Check_For_Repeat(*InQueue.front().ThirdNext)))
+				{
+					InQueue.push_back(*InQueue.front().ThirdNext);
+				}
+				
+				VisitedNodes.push_back(InQueue.front());
+				InQueue.pop_front();
+
+				if (InQueue.empty()) break;
+			}
+
+			if ((InQueue.front().FirstNext != nullptr) && (InQueue.front().SecondNext != nullptr) && (InQueue.front().ThirdNext == nullptr))
+			{
+				if (!(Check_For_Repeat(*InQueue.front().FirstNext)))
+				{
+					InQueue.push_back(*InQueue.front().FirstNext);
+				}
+
+				if (!(Check_For_Repeat(*InQueue.front().SecondNext)))
+				{
+					InQueue.push_back(*InQueue.front().SecondNext);
+				}
+
+				VisitedNodes.push_back(InQueue.front());
+				InQueue.pop_front();
+
+				if (InQueue.empty()) break;
+			}
+
+			if ((InQueue.front().FirstNext != nullptr) && (InQueue.front().SecondNext == nullptr) && (InQueue.front().ThirdNext == nullptr))
+			{
+				if (!(Check_For_Repeat(*InQueue.front().FirstNext)))
+				{
+					InQueue.push_back(*InQueue.front().FirstNext);
+				}
+
+				VisitedNodes.push_back(InQueue.front());
+				InQueue.pop_front();
+
+				if (InQueue.empty()) break;
+			}
+
+			
+		}
+		
+
+		return VisitedNodes;
+	}
+
+int main()
+{
+	// ОбЪявил узлы для 1
+	Node* Start = new Node(1);
+	Start->FirstNext = new Node(5);
+	Start->SecondNext = new Node(9);
+
+	// ОбЪявил узлы для 9
+	Start->SecondNext->FirstNext = &(*Start);
+	Start->SecondNext->SecondNext = new Node(4);
+	Start->SecondNext->ThirdNext = new Node(6);
+
+	// ОбЪявил узлы для 5
+	Start->FirstNext->FirstNext = &(*Start);
+	Start->FirstNext->SecondNext = &(*(Start->SecondNext->ThirdNext));
+
+	// ОбЪявил узлы для 6
+	Start->SecondNext->ThirdNext->FirstNext = &(*(Start->SecondNext->SecondNext));
+	Start->SecondNext->ThirdNext->SecondNext = &(*(Start->FirstNext));
+	Start->SecondNext->ThirdNext->ThirdNext = &(*(Start->SecondNext));
+
+	// ОбЪявил узлы для 4
+	Start->SecondNext->SecondNext->FirstNext = &(*(Start->SecondNext->ThirdNext));
+	Start->SecondNext->SecondNext->SecondNext = &(*(Start->SecondNext));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	auto TestList = BreadthFirstSearch(&(*Start));
+	
+	for (auto i = TestList.begin(); i != TestList.end(); i++)
+	{
+		cout << (*i).data << " ";
+	}
+	
+	
+}

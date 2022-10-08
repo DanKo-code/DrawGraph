@@ -1,0 +1,10 @@
+Введите кол-во кубиков: 3
+Введите столбец с которого перекладываем: 1
+Введите столбец на который перекладываем: 3
+Move disk 1 from pin 1 to 3.
+Move disk 2 from pin 1 to 2.
+Move disk 1 from pin 3 to 2.
+Move disk 3 from pin 1 to 3.
+Move disk 1 from pin 2 to 1.
+Move disk 2 from pin 2 to 3.
+Move disk 1 from pin 1 to 3.
