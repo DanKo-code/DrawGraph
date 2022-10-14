@@ -130,7 +130,7 @@ private:
 
 	void Double_Connection_with_New();
 
-	void Double_Connection_with_Existing(int&, Node**);
+	void Double_Connection_with_Existing(Node*, Node*);
 
 	void Handle_Node_Сreation();
 
@@ -138,7 +138,7 @@ private:
 	void Input_to_Existing_Node(int&, int);
 
 	//Как и прошлая, только работа с адресами
-	void ConnectWithExisting(Node**, int&);
+	void ConnectWithExisting(Node**, int&, Node* previous);
 
 	///////////////////////////////Переменные//////////////////////////////////////
 	short ButtonCod = 0;                                                         //
@@ -156,6 +156,8 @@ private:
 	Node* Start_From_Existing = nullptr;										 //
 																				 //
 	vector<Node*> NodesStorage;													 //
+																				 //
+	//Для работы Double_Connection_with_New, если до его вызова мы работали с Start_From_Existing												     //
 																				 //
 	bool Flag = false;														     //
 	///////////////////////////////////////////////////////////////////////////////

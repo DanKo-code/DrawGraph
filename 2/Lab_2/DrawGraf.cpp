@@ -167,38 +167,86 @@ void DanilasGame::Double_Connection_with_New()
 			{
 			case 1:
 			{
-				NodesStorage.back()->FirstNext = NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->FirstNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->FirstNext = Start_From_Existing;
+					return;
+				}
 			}
 
 			case 2:
 			{
-				NodesStorage.back()->SecondNext = NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->SecondNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->SecondNext = Start_From_Existing;
+					return;
+				}
 			}
 
 			case 3:
 			{
-				NodesStorage.back()->ThirdNext = NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->ThirdNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->ThirdNext = Start_From_Existing;
+					return;
+				}
 			}
 
 			case 4:
 			{
-				NodesStorage.back()->FourthNext = NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->FourthNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->FourthNext = Start_From_Existing;
+					return;
+				}
 			}
 
 			case 5:
 			{
-				NodesStorage.back()->FifthNext= NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->FifthNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->FifthNext = Start_From_Existing;
+					return;
+				}
 			}
 
 			case 6:
 			{
-				NodesStorage.back()->SixthNext = NodesStorage[NodesStorage.size() - 2];
-				return;
+				if (Start_From_Existing == nullptr)
+				{
+					NodesStorage.back()->SixthNext = NodesStorage[NodesStorage.size() - 2];
+					return;
+				}
+				else
+				{
+					NodesStorage.back()->SixthNext = Start_From_Existing;
+					return;
+				}
 			}
 			}
 		}
@@ -209,7 +257,8 @@ void DanilasGame::Double_Connection_with_New()
 	}
 }
 
-void DanilasGame::Double_Connection_with_Existing(int& i, Node** temp)
+//Убрать!!!
+void DanilasGame::Double_Connection_with_Existing(Node* existing, Node* previous)
 {
 	Print_Message_3();
 
@@ -217,34 +266,34 @@ void DanilasGame::Double_Connection_with_Existing(int& i, Node** temp)
 
 	if (ButtonCod == 49)
 	{
-		if (NodesStorage[i]->FirstNext == nullptr)
+		if (existing->FirstNext == nullptr)
 		{
-			NodesStorage[i]->FirstNext = ((*temp));
+			existing->FirstNext = previous;
 			return;
 		}
-		if (NodesStorage[i]->SecondNext == nullptr)
+		if (existing->SecondNext == nullptr)
 		{
-			NodesStorage[i]->SecondNext = ((*temp));
+			existing->SecondNext = previous;
 			return;
 		}
-		if (NodesStorage[i]->ThirdNext == nullptr)
+		if (existing->ThirdNext == nullptr)
 		{
-			NodesStorage[i]->ThirdNext = ((*temp));
+			existing->ThirdNext = previous;
 			return;
 		}
-		if (NodesStorage[i]->FourthNext == nullptr)
+		if (existing->FourthNext == nullptr)
 		{
-			NodesStorage[i]->FourthNext = ((*temp));
+			existing->FourthNext = previous;
 			return;
 		}
-		if (NodesStorage[i]->FifthNext == nullptr)
+		if (existing->FifthNext == nullptr)
 		{
-			NodesStorage[i]->FifthNext = ((*temp));
+			existing->FifthNext = previous;
 			return;
 		}
-		if (NodesStorage[i]->SixthNext == nullptr)
+		if (existing->SixthNext == nullptr)
 		{
-			NodesStorage[i]->SixthNext = (*temp);
+			existing->SixthNext = previous;
 			return;
 		}
 
@@ -402,12 +451,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->FirstNext, i);
+							ConnectWithExisting(&NodesStorage.back()->FirstNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->FirstNext, i);
+							ConnectWithExisting(&Start_From_Existing->FirstNext, i, Start_From_Existing);
 							break;
 						}
 
@@ -417,12 +466,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->SecondNext, i);
+							ConnectWithExisting(&NodesStorage.back()->SecondNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->SecondNext, i);
+							ConnectWithExisting(&Start_From_Existing->SecondNext, i, Start_From_Existing);
 							break;
 						}
 					}
@@ -431,12 +480,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->ThirdNext, i);
+							ConnectWithExisting(&NodesStorage.back()->ThirdNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->ThirdNext, i);
+							ConnectWithExisting(&Start_From_Existing->ThirdNext, i, Start_From_Existing);
 							break;
 						}
 					}
@@ -445,12 +494,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->FourthNext, i);
+							ConnectWithExisting(&NodesStorage.back()->FourthNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->FourthNext, i);
+							ConnectWithExisting(&Start_From_Existing->FourthNext, i, Start_From_Existing);
 							break;
 						}
 					}
@@ -459,12 +508,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->FifthNext, i);
+							ConnectWithExisting(&NodesStorage.back()->FifthNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->FifthNext, i);
+							ConnectWithExisting(&Start_From_Existing->FifthNext, i, Start_From_Existing);
 							break;
 						}
 					}
@@ -473,12 +522,12 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 			{
 						if (Start_From_Existing == nullptr)
 						{
-							ConnectWithExisting(&NodesStorage.back()->SixthNext, i);
+							ConnectWithExisting(&NodesStorage.back()->SixthNext, i, NodesStorage.back());
 							break;
 						}
 						else
 						{
-							ConnectWithExisting(&Start_From_Existing->SixthNext, i);
+							ConnectWithExisting(&Start_From_Existing->SixthNext, i, Start_From_Existing);
 							break;
 						}
 					}
@@ -509,24 +558,17 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 }
 
 //Связываем с попавшимся
-void DanilasGame::ConnectWithExisting(Node** buffer, int& i)
+void DanilasGame::ConnectWithExisting(Node** buffer, int& i, Node* previous)
 {
-	/*if (Start_From_Existing == nullptr)
-	{
-		Double_Connection_with_Existing(i, &NodesStorage.back());
-	}
-	else
-	{
-		Double_Connection_with_Existing(i, &Start_From_Existing);
-	}*/
-
-	
-
-	*buffer = NodesStorage[i];
+	//Убрать!!!
+	(*buffer) = NodesStorage[i];
 	Start_From_Existing = *buffer;
 
 	this->PlayerX = Start_From_Existing->X;
 	this->PlayerY = Start_From_Existing->Y;
+	
+	Double_Connection_with_Existing(Start_From_Existing, previous);
+	
 }
 
 ///////////////////////////////////////////Распечатка сообщений////////////////////////////////////////////////////////////////////////
