@@ -300,75 +300,266 @@ void DanilasGame::Double_Connection_with_Existing(Node* existing, Node* previous
 			case 1:
 			{
 				existing->FirstWeight = previous->FirstWeight;
-				break;
+				return;
 			}
 
 			case 2:
 			{
 				existing->FirstWeight = previous->SecondWeight;
-				break;
+				return;
 			}
 
 			case 3:
 			{
 				existing->FirstWeight = previous->ThirdWeight;
-				break;
+				return;
 			}
 
 			case 4:
 			{
 				existing->FirstWeight = previous->FourthWeight;
-				break;
+				return;
 			}
 
 			case 5:
 			{
 				existing->FirstWeight = previous->FifthWeight;
-				break;
+				return;
 			}
 
 			case 6:
 			{
 				existing->FirstWeight = previous->SixthWeight;
-				break;
+				return;
 			}
 			}
 			//////////////////////////////////////////////////////////
-
-			existing->FirstWeight = previous->FirstWeight;
-			return;
 		}
 		if (existing->SecondNext == nullptr)
 		{
 			existing->SecondNext = previous;
-			existing->SecondWeight = previous->SecondWeight;
-			return;
+
+			//////////////////////////////////////////////////////////
+			switch (path)
+			{
+			case 1:
+			{
+				existing->SecondWeight = previous->FirstWeight;
+				return;
+			}
+
+			case 2:
+			{
+				existing->SecondWeight = previous->SecondWeight;
+				return;
+			}
+
+			case 3:
+			{
+				existing->SecondWeight = previous->ThirdWeight;
+				return;
+			}
+
+			case 4:
+			{
+				existing->SecondWeight = previous->FourthWeight;
+				return;
+			}
+
+			case 5:
+			{
+				existing->SecondWeight = previous->FifthWeight;
+				return;
+			}
+
+			case 6:
+			{
+				existing->SecondWeight = previous->SixthWeight;
+				return;
+			}
+			}
+			//////////////////////////////////////////////////////////		
 		}
 		if (existing->ThirdNext == nullptr)
 		{
 			existing->ThirdNext = previous;
-			existing->ThirdWeight = previous->ThirdWeight;
-			return;
+
+			//////////////////////////////////////////////////////////
+			switch (path)
+			{
+			case 1:
+			{
+				existing->ThirdWeight = previous->FirstWeight;
+				return;
+			}
+
+			case 2:
+			{
+				existing->ThirdWeight = previous->SecondWeight;
+				return;
+			}
+
+			case 3:
+			{
+				existing->ThirdWeight = previous->ThirdWeight;
+				return;
+			}
+
+			case 4:
+			{
+				existing->ThirdWeight = previous->FourthWeight;
+				return;
+			}
+
+			case 5:
+			{
+				existing->ThirdWeight = previous->FifthWeight;
+				return;
+			}
+
+			case 6:
+			{
+				existing->ThirdWeight = previous->SixthWeight;
+				return;
+			}
+			}
+			//////////////////////////////////////////////////////////
 		}
 		if (existing->FourthNext == nullptr)
 		{
 			existing->FourthNext = previous;
-			existing->FourthWeight = previous->FourthWeight;
-			return;
+
+			//////////////////////////////////////////////////////////
+			switch (path)
+			{
+			case 1:
+			{
+				existing->FourthWeight = previous->FirstWeight;
+				return;
+			}
+
+			case 2:
+			{
+				existing->FourthWeight = previous->SecondWeight;
+				return;
+			}
+
+			case 3:
+			{
+				existing->FourthWeight = previous->ThirdWeight;
+				return;
+			}
+
+			case 4:
+			{
+				existing->FourthWeight = previous->FourthWeight;
+				return;
+			}
+
+			case 5:
+			{
+				existing->FourthWeight = previous->FifthWeight;
+				return;
+			}
+
+			case 6:
+			{
+				existing->FourthWeight = previous->SixthWeight;
+				return;
+			}
+			}
+			//////////////////////////////////////////////////////////
 		}
 		if (existing->FifthNext == nullptr)
 		{
 			existing->FifthNext = previous;
-			existing->FifthWeight = previous->FifthWeight;
-			return;
+
+			//////////////////////////////////////////////////////////
+			switch (path)
+			{
+			case 1:
+			{
+				existing->FifthWeight = previous->FirstWeight;
+				return;
+			}
+
+			case 2:
+			{
+				existing->FifthWeight = previous->SecondWeight;
+				return;
+			}
+
+			case 3:
+			{
+				existing->FifthWeight = previous->ThirdWeight;
+				return;
+			}
+
+			case 4:
+			{
+				existing->FifthWeight = previous->FourthWeight;
+				return;
+			}
+
+			case 5:
+			{
+				existing->FifthWeight = previous->FifthWeight;
+				return;
+			}
+
+			case 6:
+			{
+				existing->FifthWeight = previous->SixthWeight;
+				return;
+			}
+			}
+			//////////////////////////////////////////////////////////
 		}
 		if (existing->SixthNext == nullptr)
 		{
 			existing->SixthNext = previous;
-			existing->SixthWeight = previous->SixthWeight;
-			return;
-		}
 
+			//////////////////////////////////////////////////////////
+			switch (path)
+			{
+			case 1:
+			{
+				existing->SixthWeight = previous->FirstWeight;
+				return;
+			}
+
+			case 2:
+			{
+				existing->SixthWeight = previous->SecondWeight;
+				return;
+			}
+
+			case 3:
+			{
+				existing->SixthWeight = previous->ThirdWeight;
+				return;
+			}
+
+			case 4:
+			{
+				existing->SixthWeight = previous->FourthWeight;
+				return;
+			}
+
+			case 5:
+			{
+				existing->SixthWeight = previous->FifthWeight;
+				return;
+			}
+
+			case 6:
+			{
+				existing->SixthWeight = previous->SixthWeight;
+				return;
+			}
+			}
+			//////////////////////////////////////////////////////////
+		}
 	}
 	if (ButtonCod == 50)
 	{
