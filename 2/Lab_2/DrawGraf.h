@@ -13,8 +13,8 @@
 
 
 #define PLAYER_SYMBOL '*' // ќбозначение игрока на карте
-#define START_ANIMATION 10 //ѕо€вление окна в самом начале (большее значение - меньша€ скорость) 
-#define DRAW_GRAPH_ANIMATION 30
+#define START_ANIMATION 0 //ѕо€вление окна в самом начале (большее значение - меньша€ скорость) 
+#define DRAW_GRAPH_ANIMATION 100
 
 using namespace std;
 
@@ -26,6 +26,7 @@ public:
 
 	void Create_Player(); // —тартова€ позици€ игрока
 
+//private:
 
 	class Node
 	{
@@ -75,48 +76,10 @@ public:
 	bool DownloadFromFileFlag = false;
 	int EventIndex = 0;
 
-	void Draw_Or_Downloads()
-	{
-		if (DownloadFromFileFlag)
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(DRAW_GRAPH_ANIMATION));
-			ButtonCod = From_File[EventIndex];
-			++EventIndex;
-		}
-		else
-		{
-			ButtonCod = _getch();
-			EventsBuffer.push_back(ButtonCod);
-		}
-	}
+	void Draw_Or_Downloads();
 
-	void GraphSaveORRquest()
-	{
-		if (!DownloadFromFileFlag)
-		{
-			Print_Message_5();
-
-			ButtonCod = _getch();
-
-			for (;;)
-			{
-				if (ButtonCod == 49)
-				{
-					ToFile.open("Graph.txt", ios::binary);
-
-					for (short temp : EventsBuffer)
-					{
-						ToFile.write((char*)&temp, sizeof(short));
-					}
-					ToFile.close();
-
-					return;
-				}
-				if (ButtonCod == 50) return;
-			}
-		}
-	}
-
+	void GraphSaveORRquest();
+	
 	void Print_Message_5()
 	{
 		GoToMessagePosition();
@@ -269,6 +232,21 @@ public:
 					InQueue.push_back(*temp.ThirdNext);
 				}
 
+				if ((temp.FourthNext != nullptr) && (!(Check_For_Repeat(*temp.FourthNext))))
+				{
+					InQueue.push_back(*temp.FourthNext);
+				}
+
+				if ((temp.FifthNext != nullptr) && (!(Check_For_Repeat(*temp.FifthNext))))
+				{
+					InQueue.push_back(*temp.FifthNext);
+				}
+
+				if ((temp.SixthNext != nullptr) && (!(Check_For_Repeat(*temp.SixthNext))))
+				{
+					InQueue.push_back(*temp.SixthNext);
+				}
+
 				VisitedNodes.push_back(temp);
 				InQueue.pop_front();
 
@@ -297,6 +275,21 @@ public:
 				if ((temp.ThirdNext != nullptr) && (!(Check_For_Repeat(*temp.ThirdNext))))
 				{
 					InQueue.push_back(*temp.ThirdNext);
+				}
+
+				if ((temp.FourthNext != nullptr) && (!(Check_For_Repeat(*temp.FourthNext))))
+				{
+					InQueue.push_back(*temp.FourthNext);
+				}
+
+				if ((temp.FifthNext != nullptr) && (!(Check_For_Repeat(*temp.FifthNext))))
+				{
+					InQueue.push_back(*temp.FifthNext);
+				}
+
+				if ((temp.SixthNext != nullptr) && (!(Check_For_Repeat(*temp.SixthNext))))
+				{
+					InQueue.push_back(*temp.SixthNext);
 				}
 
 				VisitedNodes.push_back(temp);

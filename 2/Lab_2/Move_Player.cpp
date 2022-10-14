@@ -20,7 +20,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 		else
 		{
 			cout << "Open error!!!";
-			return nullptr;//////////////////////////////////////////////////////////////!&&&&&&&&&&&&&&&&&&&&&&
+			return nullptr;
 		}
 
 	}
@@ -28,9 +28,6 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 	HIDE_CURSOR(false);
 	for (;;)
 	{
-		//ButtonCod = _getch();
-		//EventsBuffer.push_back(ButtonCod);
-
 		Draw_Or_Downloads();
 
 		switch (ButtonCod)
@@ -54,6 +51,31 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 				Create_New_Node();
 
 				Print_Message_3();
+
+				//////////////////////////////////////////////Костыль, чтобы работала Double_Connection_with_New :) /////////////////////////////////////////////////////
+				
+				/*
+				if (Start_From_Existing != nullptr)
+				{
+					for (auto iter = NodesStorage.cbegin(); iter != NodesStorage.cend(); ++iter)
+					{
+						if ((*iter)->symbol == Start_From_Existing->symbol)
+						{
+							Node* temp = *iter;
+
+							NodesStorage.erase(iter);
+
+							NodesStorage.insert(NodesStorage.cend() - 2, temp);
+
+							//NodesStorage.push_back(temp);
+
+							break;
+						}
+					}
+				}
+				*/
+				
+				///////////////////////////////////////////////////////////////////////////////////////////////////
 					
 				Double_Connection_with_New();
 
@@ -237,7 +259,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 		//END
 		case 239:
 		{
-			GraphSaveORRquest();
+			if(!DownloadFromFileFlag) GraphSaveORRquest();
 
 			return NodesStorage[0];
 		}

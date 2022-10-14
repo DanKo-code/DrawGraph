@@ -8,12 +8,14 @@ int main()
 {
     setlocale(0, "rus");
 
-    int a, b, c;
+   /* int a, b, c;
     cout << "¬ведите кол-во кубиков: "; cin >> a;
     cout << "¬ведите столбец с которого перекладываем: "; cin >> b;
     cout << "¬ведите столбец на который перекладываем: "; cin >> c;
 
-    hanoi(a, b, c);
+    hanoi(a, b, c);*/
+
+    
     return 0;
 }
 

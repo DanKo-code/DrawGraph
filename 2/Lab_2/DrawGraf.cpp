@@ -511,14 +511,14 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 //Связываем с попавшимся
 void DanilasGame::ConnectWithExisting(Node** buffer, int& i)
 {
-	if (Start_From_Existing == nullptr)
+	/*if (Start_From_Existing == nullptr)
 	{
 		Double_Connection_with_Existing(i, &NodesStorage.back());
 	}
 	else
 	{
 		Double_Connection_with_Existing(i, &Start_From_Existing);
-	}
+	}*/
 
 	
 
@@ -561,6 +561,52 @@ void DanilasGame::Print_Messge_1()
 	cout << "\n\n";
 
 	cout << "Если хотите перейти в другой узел, введите его символ. ";
+}
+
+///////////////////////////////////////////Работа с сохраненными графами////////////////////////////////////////////////////////////////////////
+
+//Ждать ввода пользователя, либо считывание событий из файла
+void DanilasGame::Draw_Or_Downloads()
+{
+	if (DownloadFromFileFlag)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(DRAW_GRAPH_ANIMATION));
+		ButtonCod = From_File[EventIndex];
+		++EventIndex;
+	}
+	else
+	{
+		ButtonCod = _getch();
+		EventsBuffer.push_back(ButtonCod);
+	}
+}
+
+//Сохранять ли граф пользователя в файл
+void DanilasGame::GraphSaveORRquest()
+{
+	if (!DownloadFromFileFlag)
+	{
+		Print_Message_5();
+
+		ButtonCod = _getch();
+
+		for (;;)
+		{
+			if (ButtonCod == 49)
+			{
+				ToFile.open("Graph.txt", ios::binary);
+
+				for (short temp : EventsBuffer)
+				{
+					ToFile.write((char*)&temp, sizeof(short));
+				}
+				ToFile.close();
+
+				return;
+			}
+			if (ButtonCod == 50) return;
+		}
+	}
 }
 
 /////////////////////////////////////////////////Работа с консолью/////////////////////////////////////////////////////////////////////

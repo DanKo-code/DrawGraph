@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Node
+/*class Node
 {
 public:
 
@@ -43,9 +43,63 @@ public:
 	Node* FifthNext;
 
 };
+*/
+
+
+class DanilasGame
+{
+public:
+
+	class Node
+	{
+	public:
+
+		Node(int data = 0, char symbol = char(), short X = short(), short Y = short())
+		{
+			this->data = data;
+
+			this->symbol = symbol;
+
+			this->X = X;
+			this->Y = Y;
+
+			this->CurrentNodeAddress = this;
+		}
+
+		int data = int();
+
+		char symbol = char();
+
+		short X = short();
+		short Y = short();
+
+		Node* CurrentNodeAddress;
+
+		Node* FirstNext = nullptr;
+		Node* SecondNext = nullptr;
+		Node* ThirdNext = nullptr;
+		Node* FourthNext = nullptr;
+		Node* FifthNext = nullptr;
+		Node* SixthNext = nullptr;
+	};
+
+	vector<Node*> NodesStorage;
+	char NodeSymbol = 65;
+
+	short PlayerX = 10;
+	short PlayerY = 20;
+
+	void TestMemory()
+	{
+		NodesStorage.push_back(new Node(rand() % 100, NodeSymbol++, this->PlayerX, this->PlayerY));
+	}
+};
+
 
 int main()
 {
+	//Работа с файлами
+	/*
 	int a = 1;
 	short Short_buffer;
 
@@ -80,4 +134,46 @@ int main()
 	}
 
 	ffile.close();
+	*/
+
+	////////////////////////////////////////////////////////////////
+
+	/*DanilasGame Graf;
+
+	Graf.TestMemory();*/
+	
+	////////////////////////////////////////////////////////////////
+
+	vector<int> a = { 1,2,3,4 };
+
+	for (auto iter = a.cbegin(); iter != a.cend(); iter++)
+	{
+		if (*iter == 3)
+		{
+			int temp = *iter;
+
+			a.erase(iter);
+
+			a.push_back(temp);
+
+			
+
+			break;
+		}
+
+
+	}
+
+	cout << endl;
+
+	for (int temp : a)
+	{
+		cout << temp << " ";
+	}
+
+	
+
+
+
+	
 }

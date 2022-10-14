@@ -48,7 +48,7 @@ using namespace std;
 
 		InQueue.push_back(*Start);
 
-		// Проверка на совпадение с посещенными узлами и узлами в очереди(листе)
+		 //Проверка на совпадение с посещенными узлами и узлами в очереди(листе)
 		auto Check_For_Repeat = [&](Node& test)
 		{
 			for (int i = 0; i < VisitedNodes.size(); i++)
@@ -56,7 +56,7 @@ using namespace std;
 				if ( test.CurrentNodeAddress == VisitedNodes[i].CurrentNodeAddress) return true;
 			}
 
-			// Проверка на совпадение с временным содержимым очереди(листа)
+			 //Проверка на совпадение с временным содержимым очереди(листа)
 			for (auto j = InQueue.begin(); j != InQueue.end(); j++)
 			{
 				if (test.CurrentNodeAddress == (*j).CurrentNodeAddress) return true;
@@ -231,8 +231,8 @@ using namespace std;
 			cout<<i<<". "<< (*GrafNodes)[i].CurrentNodeAddress<<", " << (*GrafNodes)[i].data << "\n";
 		}
 	}
-	*/
-
+	
+*/
 
 #ifdef Lab_2
 
@@ -335,7 +335,7 @@ using namespace std;
 
 		Graf.Create_Field(200, 50);
 
-		string FileName = "Graph.txt";
+		string FileName = "VOID";
 
 		Graf.Create_Player();
 
