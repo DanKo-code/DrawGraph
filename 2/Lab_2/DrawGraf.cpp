@@ -170,11 +170,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->FirstNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->FirstWeight = NodesStorage[NodesStorage.size() - 2]->FirstWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->FirstNext = Start_From_Existing;
+					NodesStorage.back()->FirstWeight = Start_From_Existing->FirstWeight;
+
 					return;
 				}
 			}
@@ -184,11 +188,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->SecondNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->SecondWeight = NodesStorage[NodesStorage.size() - 2]->SecondWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->SecondNext = Start_From_Existing;
+					NodesStorage.back()->SecondWeight = Start_From_Existing->SecondWeight;
+
 					return;
 				}
 			}
@@ -198,11 +206,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->ThirdNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->ThirdWeight = NodesStorage[NodesStorage.size() - 2]->ThirdWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->ThirdNext = Start_From_Existing;
+					NodesStorage.back()->ThirdWeight = Start_From_Existing->ThirdWeight;
+
 					return;
 				}
 			}
@@ -212,11 +224,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->FourthNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->FourthWeight = NodesStorage[NodesStorage.size() - 2]->FourthWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->FourthNext = Start_From_Existing;
+					NodesStorage.back()->FourthWeight = Start_From_Existing->FourthWeight;
+
 					return;
 				}
 			}
@@ -226,11 +242,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->FifthNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->FifthWeight = NodesStorage[NodesStorage.size() - 2]->FifthWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->FifthNext = Start_From_Existing;
+					NodesStorage.back()->FifthWeight = Start_From_Existing->FifthWeight;
+
 					return;
 				}
 			}
@@ -240,11 +260,15 @@ void DanilasGame::Double_Connection_with_New()
 				if (Start_From_Existing == nullptr)
 				{
 					NodesStorage.back()->SixthNext = NodesStorage[NodesStorage.size() - 2];
+					NodesStorage.back()->SixthWeight = NodesStorage[NodesStorage.size() - 2]->SixthWeight;
+
 					return;
 				}
 				else
 				{
 					NodesStorage.back()->SixthNext = Start_From_Existing;
+					NodesStorage.back()->SixthWeight = Start_From_Existing->SixthWeight;
+
 					return;
 				}
 			}
@@ -269,31 +293,79 @@ void DanilasGame::Double_Connection_with_Existing(Node* existing, Node* previous
 		if (existing->FirstNext == nullptr)
 		{
 			existing->FirstNext = previous;
+
+			//////////////////////////////////////////////////////////
+			switch(path)
+			{
+			case 1:
+			{
+				existing->FirstWeight = previous->FirstWeight;
+				break;
+			}
+
+			case 2:
+			{
+				existing->FirstWeight = previous->SecondWeight;
+				break;
+			}
+
+			case 3:
+			{
+				existing->FirstWeight = previous->ThirdWeight;
+				break;
+			}
+
+			case 4:
+			{
+				existing->FirstWeight = previous->FourthWeight;
+				break;
+			}
+
+			case 5:
+			{
+				existing->FirstWeight = previous->FifthWeight;
+				break;
+			}
+
+			case 6:
+			{
+				existing->FirstWeight = previous->SixthWeight;
+				break;
+			}
+			}
+			//////////////////////////////////////////////////////////
+
+			existing->FirstWeight = previous->FirstWeight;
 			return;
 		}
 		if (existing->SecondNext == nullptr)
 		{
 			existing->SecondNext = previous;
+			existing->SecondWeight = previous->SecondWeight;
 			return;
 		}
 		if (existing->ThirdNext == nullptr)
 		{
 			existing->ThirdNext = previous;
+			existing->ThirdWeight = previous->ThirdWeight;
 			return;
 		}
 		if (existing->FourthNext == nullptr)
 		{
 			existing->FourthNext = previous;
+			existing->FourthWeight = previous->FourthWeight;
 			return;
 		}
 		if (existing->FifthNext == nullptr)
 		{
 			existing->FifthNext = previous;
+			existing->FifthWeight = previous->FifthWeight;
 			return;
 		}
 		if (existing->SixthNext == nullptr)
 		{
 			existing->SixthNext = previous;
+			existing->SixthWeight = previous->SixthWeight;
 			return;
 		}
 
@@ -560,7 +632,8 @@ void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
 //Связываем с попавшимся
 void DanilasGame::ConnectWithExisting(Node** buffer, int& i, Node* previous)
 {
-	//Убрать!!!
+	SetRibsWeights(previous, path);
+
 	(*buffer) = NodesStorage[i];
 	Start_From_Existing = *buffer;
 

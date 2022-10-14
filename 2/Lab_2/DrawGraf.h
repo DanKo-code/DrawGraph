@@ -14,7 +14,7 @@
 
 #define PLAYER_SYMBOL '*' // Обозначение игрока на карте
 #define START_ANIMATION 0 //Появление окна в самом начале (большее значение - меньшая скорость) 
-#define DRAW_GRAPH_ANIMATION 100
+#define DRAW_GRAPH_ANIMATION 10
 
 using namespace std;
 
@@ -59,6 +59,13 @@ public:
 		Node* FourthNext = nullptr;
 		Node* FifthNext = nullptr;
 		Node* SixthNext = nullptr;
+
+		unsigned int FirstWeight = 0;
+		unsigned int SecondWeight = 0;
+		unsigned int ThirdWeight = 0;
+		unsigned int FourthWeight = 0;
+		unsigned int FifthWeight = 0;
+		unsigned int SixthWeight = 0;
 	};
 
 	////////////////////////////////////////////Методы для построения самого графа/////////////////////////////////////////////////////////
@@ -80,11 +87,98 @@ public:
 
 	void GraphSaveORRquest();
 	
-	void Print_Message_5()
+	
+
+	////////////////////////////////////////////Распечатка графа из файла/////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////Выставление весов ребер////////////////////////////////////////////////////////////
+
+	void SetRibsWeights(Node* node, int path)
 	{
-		GoToMessagePosition();
-		cout << "Хотите сохранить граф?(1 - да, 2 - нет)";
+	RESTART:
+
+		EraseMessage();
+
+		Print_Message_6();
+		
+		//Draw_Or_Downloads();
+
+		
+			
+				string numberInput;
+
+				for (;;)
+				{
+					//Draw_Or_Downloads();
+
+					/*if (DownloadFromFileFlag)
+					{
+						std::this_thread::sleep_for(std::chrono::milliseconds(DRAW_GRAPH_ANIMATION));
+
+
+
+						ButtonCod = From_File[EventIndex];
+						++EventIndex;
+					}*/
+					
+						
+
+						getline(cin, numberInput);
+
+						for (char symbol : numberInput)
+						{
+							if (!isdigit(symbol))
+							{
+								EraseMessage();
+
+								goto RESTART;
+							}
+						}
+
+						switch (path)
+						{
+						case 1:
+						{
+							(*node).FirstWeight = stoi(numberInput);
+							break;
+						}
+						case 2:
+						{
+							(*node).SecondWeight = stoi(numberInput);
+							break;
+						}
+						case 3:
+						{
+							(*node).ThirdWeight = stoi(numberInput);
+							break;
+						}
+						case 4:
+						{
+							(*node).FourthWeight = stoi(numberInput);
+							break;
+						}
+						case 5:
+						{
+							(*node).FifthWeight = stoi(numberInput);
+							break;
+						}
+						case 6:
+						{
+							(*node).SixthWeight = stoi(numberInput);
+							break;
+						}
+						}
+					
+
+					break;
+				}
+
+				EraseMessage();
+			
+		
+
 	}
+
 
 public:
 
@@ -109,6 +203,18 @@ private:
 	{
 		GoToMessagePosition();
 		cout << "Невозможно сделать двойную связь - все узлы заняты!";
+	}
+
+	void Print_Message_5()
+	{
+		GoToMessagePosition();
+		cout << "Хотите сохранить граф?(1 - да, 2 - нет)";
+	}
+
+	void Print_Message_6()
+	{
+		GoToMessagePosition();
+		cout << "Укажите вес звязи: ";
 	}
 
 	void GoToMessagePosition()

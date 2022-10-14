@@ -335,7 +335,7 @@ using namespace std;
 
 		Graf.Create_Field(200, 50);
 
-		string FileName = "VOID";
+		string FileName = "Graph.txt";
 
 		Graf.Create_Player();
 

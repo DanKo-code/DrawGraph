@@ -47,35 +47,21 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 			}
 			else
 			{
+				//Запрашиваю вес ребра
+				if (Start_From_Existing == nullptr)
+				{
+					SetRibsWeights(NodesStorage.back(), path);
+				}
+				else
+				{
+					SetRibsWeights(Start_From_Existing, path);
+				}
+
 				// Объявляю новые узлы
 				Create_New_Node();
 
 				Print_Message_3();
 
-				//////////////////////////////////////////////Костыль, чтобы работала Double_Connection_with_New :) /////////////////////////////////////////////////////
-				
-				/*
-				if (Start_From_Existing != nullptr)
-				{
-					for (auto iter = NodesStorage.cbegin(); iter != NodesStorage.cend(); ++iter)
-					{
-						if ((*iter)->symbol == Start_From_Existing->symbol)
-						{
-							Node* temp = *iter;
-
-							NodesStorage.erase(iter);
-
-							NodesStorage.insert(NodesStorage.cend() - 2, temp);
-
-							//NodesStorage.push_back(temp);
-
-							break;
-						}
-					}
-				}
-				*/
-				
-				///////////////////////////////////////////////////////////////////////////////////////////////////
 					
 				Double_Connection_with_New();
 
