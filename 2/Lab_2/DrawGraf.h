@@ -20,13 +20,12 @@ using namespace std;
 
 class DanilasGame
 {
-public:
+private:
 
 	void Create_Field(const short& Field_Width, const short& Field_Height); // Создание поля
 
 	void Create_Player(); // Стартовая позиция игрока
 
-//private:
 
 	class Node
 	{
@@ -68,7 +67,6 @@ public:
 		unsigned int SixthWeight = 0;
 	};
 
-	////////////////////////////////////////////Методы для построения самого графа/////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////Распечатка графа из файла/////////////////////////////////////////////////////////
 
@@ -87,9 +85,6 @@ public:
 
 	void GraphSaveORRquest();
 	
-	
-
-	////////////////////////////////////////////Распечатка графа из файла/////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////Выставление весов ребер////////////////////////////////////////////////////////////
 
@@ -100,83 +95,61 @@ public:
 		EraseMessage();
 
 		Print_Message_6();
-		
-		//Draw_Or_Downloads();
-
-		
 			
-				string numberInput;
+		string numberInput;
 
-				for (;;)
+		for (;;)
+		{
+			getline(cin, numberInput);
+
+			for (char symbol : numberInput)
+			{
+				if (!isdigit(symbol))
 				{
-					//Draw_Or_Downloads();
+					EraseMessage();
 
-					/*if (DownloadFromFileFlag)
-					{
-						std::this_thread::sleep_for(std::chrono::milliseconds(DRAW_GRAPH_ANIMATION));
+					goto RESTART;
+				}
+			}
 
-
-
-						ButtonCod = From_File[EventIndex];
-						++EventIndex;
-					}*/
-					
-						
-
-						getline(cin, numberInput);
-
-						for (char symbol : numberInput)
-						{
-							if (!isdigit(symbol))
-							{
-								EraseMessage();
-
-								goto RESTART;
-							}
-						}
-
-						switch (path)
-						{
-						case 1:
-						{
-							(*node).FirstWeight = stoi(numberInput);
-							break;
-						}
-						case 2:
-						{
-							(*node).SecondWeight = stoi(numberInput);
-							break;
-						}
-						case 3:
-						{
-							(*node).ThirdWeight = stoi(numberInput);
-							break;
-						}
-						case 4:
-						{
-							(*node).FourthWeight = stoi(numberInput);
-							break;
-						}
-						case 5:
-						{
-							(*node).FifthWeight = stoi(numberInput);
-							break;
-						}
-						case 6:
-						{
-							(*node).SixthWeight = stoi(numberInput);
-							break;
-						}
-						}
-					
-
+			switch (path)
+			{
+				case 1:
+				{
+					(*node).FirstWeight = stoi(numberInput);
 					break;
 				}
+			case 2:
+				{
+					(*node).SecondWeight = stoi(numberInput);
+					break;
+				}
+			case 3:
+				{
+					(*node).ThirdWeight = stoi(numberInput);
+					break;
+				}
+			case 4:
+				{
+					(*node).FourthWeight = stoi(numberInput);
+					break;
+				}
+			case 5:
+				{
+					(*node).FifthWeight = stoi(numberInput);
+					break;
+				}
+			case 6:
+				{
+					(*node).SixthWeight = stoi(numberInput);
+					break;
+				}
+			}
+					
+			break;
+		}
 
-				EraseMessage();
-			
-		
-
+		EraseMessage();
 	}
 
 
@@ -188,11 +161,13 @@ private:
 
 	//Распечатка сообщений
 	void Print_Messge_1();
+
 	void Print_Messge_2()
 	{
 		GoToMessagePosition();
 		cout << "Хотите связать узлы?(1 - да, 2 - нет)";
 	}
+
 	void Print_Message_3()
 	{
 		GoToMessagePosition();
@@ -215,6 +190,12 @@ private:
 	{
 		GoToMessagePosition();
 		cout << "Укажите вес звязи: ";
+	}
+
+	void Print_Message_7()
+	{
+		GoToMessagePosition();
+		cout << "Введите название файла: ";
 	}
 
 	void GoToMessagePosition()
@@ -241,7 +222,7 @@ private:
 	void Handle_Node_Сreation();
 
 	//При соединении с сущесвующим узлом
-	void Input_to_Existing_Node(int&, int);
+	void Input_to_Existing_Node(int, int);
 
 	//Как и прошлая, только работа с адресами
 	void ConnectWithExisting(Node**, int&, Node* previous);
@@ -263,7 +244,6 @@ private:
 																				 //
 	vector<Node*> NodesStorage;													 //
 																				 //
-	//Для работы Double_Connection_with_New, если до его вызова мы работали с Start_From_Existing												     //
 																				 //
 	bool Flag = false;														     //
 	///////////////////////////////////////////////////////////////////////////////
@@ -289,7 +269,7 @@ private:
 		BLACK, BLUE, GREEN, CLOUDY_BLUE, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE, LIGHT_GREEN, LIGHT_CLOUDY_BLUE, LIGHT_RED, LIGHT_YELLOW, BRIGHT_WHITE
 	};
 
-	////////////////////////////////////////////////////Лабовские методы/////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////Поиск в глубину/ширину + различные представления графа(вывод в консоль) /////////////////////////////////////////////////////////////////
 
 public:
 	vector<Node> Search_Breadth_or_Depth(Node* Start, string&& TypeOfSort)
@@ -303,7 +283,7 @@ public:
 		// Проверка на совпадение с посещенными узлами и узлами в очереди(листе)
 		auto Check_For_Repeat = [&](Node& test)
 		{
-			for (int i = 0; i < VisitedNodes.size(); i++)
+			for (size_t i = 0; i < VisitedNodes.size(); i++)
 			{
 				if (test.CurrentNodeAddress == VisitedNodes[i].CurrentNodeAddress) return true;
 			}
@@ -411,24 +391,41 @@ public:
 
 	void Print_Adjacency_List(const vector<Node>& GrafNodes)
 	{
-		for (int i = 0; i < (GrafNodes).size(); i++)
+		for (size_t i = 0; i < (GrafNodes).size(); i++)
 		{
-			cout << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].data;
+			cout << (GrafNodes)[i].CurrentNodeAddress << " "<< (GrafNodes)[i].symbol;
 
-			if (((GrafNodes)[i].FirstNext == nullptr) && ((GrafNodes)[i].SecondNext == nullptr) && ((GrafNodes)[i].ThirdNext == nullptr)) continue;
+			if (((GrafNodes)[i].FirstNext == nullptr) &&
+				((GrafNodes)[i].SecondNext == nullptr) &&
+				((GrafNodes)[i].ThirdNext == nullptr) &&
+				((GrafNodes)[i].FourthNext == nullptr) &&
+				((GrafNodes)[i].FifthNext == nullptr) &&
+				((GrafNodes)[i].SixthNext == nullptr)) continue;
 			cout << "\n||\n||\n\\/\n";
 
 			if ((GrafNodes)[i].FirstNext != nullptr)
 			{
-				cout << (GrafNodes)[i].FirstNext->CurrentNodeAddress << ", " << (GrafNodes)[i].FirstNext->data << "\n";
+				cout << (GrafNodes)[i].FirstNext->CurrentNodeAddress << ", " << (GrafNodes)[i].FirstNext->symbol << "\n";
 			}
 			if ((GrafNodes)[i].SecondNext != nullptr)
 			{
-				cout << (GrafNodes)[i].SecondNext->CurrentNodeAddress << ", " << (GrafNodes)[i].SecondNext->data << "\n";
+				cout << (GrafNodes)[i].SecondNext->CurrentNodeAddress << ", " << (GrafNodes)[i].SecondNext->symbol << "\n";
 			}
 			if ((GrafNodes)[i].ThirdNext != nullptr)
 			{
-				cout << (GrafNodes)[i].ThirdNext->CurrentNodeAddress << ", " << (GrafNodes)[i].ThirdNext->data << "\n";
+				cout << (GrafNodes)[i].ThirdNext->CurrentNodeAddress << ", " << (GrafNodes)[i].ThirdNext->symbol << "\n";
+			}
+			if ((GrafNodes)[i].FourthNext != nullptr)
+			{
+				cout << (GrafNodes)[i].FourthNext->CurrentNodeAddress << ", " << (GrafNodes)[i].FourthNext->symbol << "\n";
+			}
+			if ((GrafNodes)[i].FifthNext != nullptr)
+			{
+				cout << (GrafNodes)[i].FifthNext->CurrentNodeAddress << ", " << (GrafNodes)[i].FifthNext->symbol << "\n";
+			}
+			if ((GrafNodes)[i].SixthNext != nullptr)
+			{
+				cout << (GrafNodes)[i].SixthNext->CurrentNodeAddress << ", " << (GrafNodes)[i].SixthNext->symbol << "\n";
 			}
 
 			cout << "\n\n";
@@ -439,21 +436,36 @@ public:
 
 	void Print_Ribs_List(const vector<Node>& GrafNodes)
 	{
-		for (int i = 0; i < (GrafNodes).size(); i++)
+		for (size_t i = 0; i < (GrafNodes).size(); i++)
 		{
 			if ((GrafNodes)[i].FirstNext != nullptr)
 			{
-				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].data << ", " << (GrafNodes)[i].FirstNext->CurrentNodeAddress << " " << (GrafNodes)[i].FirstNext->data << " }\n";
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].FirstNext->CurrentNodeAddress << " " << (GrafNodes)[i].FirstNext->symbol << " }\n";
 			}
 
 			if ((GrafNodes)[i].SecondNext != nullptr)
 			{
-				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].data << ", " << (GrafNodes)[i].SecondNext->CurrentNodeAddress << " " << (GrafNodes)[i].SecondNext->data << " }\n";
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].SecondNext->CurrentNodeAddress << " " << (GrafNodes)[i].SecondNext->symbol << " }\n";
 			}
 
 			if ((GrafNodes)[i].ThirdNext != nullptr)
 			{
-				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].data << ", " << (GrafNodes)[i].ThirdNext->CurrentNodeAddress << " " << (GrafNodes)[i].ThirdNext->data << " }\n";
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].ThirdNext->CurrentNodeAddress << " " << (GrafNodes)[i].ThirdNext->symbol << " }\n";
+			}
+
+			if ((GrafNodes)[i].FourthNext != nullptr)
+			{
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].FourthNext->CurrentNodeAddress << " " << (GrafNodes)[i].FourthNext->symbol << " }\n";
+			}
+
+			if ((GrafNodes)[i].FifthNext != nullptr)
+			{
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].FifthNext->CurrentNodeAddress << " " << (GrafNodes)[i].FifthNext->symbol << " }\n";
+			}
+
+			if ((GrafNodes)[i].SixthNext != nullptr)
+			{
+				cout << "{ " << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol << ", " << (GrafNodes)[i].SixthNext->CurrentNodeAddress << " " << (GrafNodes)[i].SixthNext->data << " }\n";
 			}
 		}
 	}
@@ -479,21 +491,21 @@ public:
 		};
 
 		cout << "\t\t";
-		for (int i = 0; i < (GrafNodes).size(); i++)
+		for (size_t i = 0; i < (GrafNodes).size(); i++)
 		{
 			GetConsoleScreenBufferInfo(hConsole, &info);
 			StorageOf_X.push_back(info.dwCursorPosition.X);
-			cout << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].data << "\t";
+			cout << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].symbol << "\t";
 		}
 
 
-		for (int i = 0; i < (GrafNodes).size(); i++)
+		for (size_t i = 0; i < (GrafNodes).size(); i++)
 		{
 			cout << "\n\n";
 
-			cout << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].data;
+			cout << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].symbol;
 
-			for (int j = 0; j < (GrafNodes).size(); j++)
+			for (size_t j = 0; j < (GrafNodes).size(); j++)
 			{
 				if (((GrafNodes)[i].FirstNext == (GrafNodes)[j].CurrentNodeAddress) || ((GrafNodes)[i].SecondNext == (GrafNodes)[j].CurrentNodeAddress) || ((GrafNodes)[i].ThirdNext == (GrafNodes)[j].CurrentNodeAddress))
 				{
@@ -506,11 +518,103 @@ public:
 		}
 	}
 
-	void Print_Nodes_Address_Data(const vector<Node>& GrafNodes)
+	void Print_Nodes_Address_Symbol(const vector<Node>& GrafNodes)
 	{
 		for (int i = 0; i != (GrafNodes).size(); i++)
 		{
-			cout << i << ". " << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].data << "\n";
+			cout << i << ". " << (GrafNodes)[i].CurrentNodeAddress << ", " << (GrafNodes)[i].symbol << "\n";
 		}
 	}
+
+	////////////////////////////////////////////////////Алгоритм Дейкстры/////////////////////////////////////////////////////////////////
+
+	vector<pair<Node, int>> Dijkstras_Algorithm(Node* startNode, vector<Node> GrafNodes)
+	{
+		// Выходные данные
+		vector<pair<Node, int>> MinWeights;
+
+		// Проверенные узлы
+		vector<Node> SelectedNodes;
+
+		// Параметры на данном этапе
+		vector<int> ExistingWeights;
+		Node* temp = startNode;
+
+		// Общий вес прохода
+		int WeightNow = INT32_MAX;
+
+		// Сравнить текущий указатель с проверенными узлами
+		auto CompareWithSelectedNodes = [&](Node* existing)
+		{
+			for (size_t i = 0; i < SelectedNodes.size(); i++)
+			{
+				if ((*existing).CurrentNodeAddress == SelectedNodes[i].CurrentNodeAddress) return true;
+			}
+
+			return false;
+		};
+
+		// Поиск минимального
+		auto FindMin = [&]()
+		{
+			Node* local_temp = nullptr;
+
+			WeightNow = INT32_MAX;
+
+			for (size_t i = 0; i < MinWeights.size(); i++)
+			{
+				if (MinWeights[i].second < WeightNow && !CompareWithSelectedNodes(&MinWeights[i].first))
+				{
+					WeightNow = MinWeights[i].second;
+
+					local_temp = &MinWeights[i].first;
+				}
+			}
+			
+			return local_temp;
+		};
+
+		// Больше ли терперешнее значение min веса, того что лежит в выходном буффере
+		auto CompareWithExisting = [&](Node* existing, int val)
+		{
+			for (size_t i = 0; i < MinWeights.size(); i++)
+			{
+				if (existing->CurrentNodeAddress == MinWeights[i].first.CurrentNodeAddress)
+				{
+					if (val < MinWeights[i].second) MinWeights[i].second = val;
+					return;
+				}
+			}
+		};
+
+		
+		// Вставили начальный узел в выходное хранилище 
+		MinWeights.emplace_back(*temp, 0);
+
+		// Заполнил по дефолту
+		for (size_t i = 0; i < GrafNodes.size(); i++)
+		{
+			if (startNode->CurrentNodeAddress == GrafNodes[i].CurrentNodeAddress) continue;
+
+			MinWeights.emplace_back(GrafNodes[i], INT32_MAX);
+		}
+
+
+		for (size_t i = 0; i < MinWeights.size(); i++)
+		{
+			SelectedNodes.push_back(*temp);
+
+			if (temp->FirstNext != nullptr && !CompareWithSelectedNodes(temp->FirstNext)) CompareWithExisting(temp->FirstNext, WeightNow + temp->FirstWeight);
+			if (temp->SecondNext != nullptr && !CompareWithSelectedNodes(temp->SecondNext)) CompareWithExisting(temp->SecondNext, WeightNow + temp->SecondWeight);
+			if (temp->ThirdNext != nullptr && !CompareWithSelectedNodes(temp->ThirdNext)) CompareWithExisting(temp->ThirdNext, WeightNow + temp->ThirdWeight);
+			if (temp->FourthNext != nullptr && !CompareWithSelectedNodes(temp->FourthNext)) CompareWithExisting(temp->FourthNext, WeightNow + temp->FourthWeight);
+			if (temp->FifthNext != nullptr && !CompareWithSelectedNodes(temp->FifthNext)) CompareWithExisting(temp->FifthNext, WeightNow + temp->FifthWeight);
+			if (temp->SixthNext != nullptr && !CompareWithSelectedNodes(temp->SixthNext)) CompareWithExisting(temp->SixthNext, WeightNow + temp->SixthWeight);
+
+			temp = FindMin();
+		}
+
+		return MinWeights;
+	}
+	
 };

@@ -331,17 +331,17 @@ using namespace std;
 	{
 		system("mode con cols=300 lines=300");
 
+		string FileName = "Shiman_Lab_3";
+
 		DanilasGame Graf;
-
-		Graf.Create_Field(200, 50);
-
-		string FileName = "Graph.txt";
-
-		Graf.Create_Player();
 
 		auto test = Graf.Move_Player(FileName);
 
 		cout << "\n\n";
+
+		auto buf = Graf.Search_Breadth_or_Depth(test, "Breadth");
+
+		auto res = Graf.Dijkstras_Algorithm(test, buf);
 
 		Graf.Print_Adjacency_List(Graf.Search_Breadth_or_Depth(test, "Breadth"));
 		cout << "\n\n";
@@ -352,7 +352,7 @@ using namespace std;
 		Graf.Print_Adjacency_Matrix(Graf.Search_Breadth_or_Depth(test, "Breadth"));
 		cout << "\n\n";
 
-		Graf.Print_Nodes_Address_Data(Graf.Search_Breadth_or_Depth(test, "Breadth"));
+		Graf.Print_Nodes_Address_Symbol(Graf.Search_Breadth_or_Depth(test, "Breadth"));
 
 		system("pause");
 	}

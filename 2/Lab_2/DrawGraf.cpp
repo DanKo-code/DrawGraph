@@ -672,7 +672,7 @@ void DanilasGame::Handle_Node_Сreation()
 
 		default:
 		{
-			for (int i = 0; i < NodesStorage.size(); i++)
+			for (size_t i = 0; i < NodesStorage.size(); i++)
 			{
 				if (ButtonCod == NodesStorage[i]->symbol)
 				{
@@ -698,7 +698,7 @@ void DanilasGame::Handle_Node_Сreation()
 }
 
 //Обработка выбора связать с попавщимся узлом
-void DanilasGame::Input_to_Existing_Node(int& i, int buttonCode)
+void DanilasGame::Input_to_Existing_Node(int i, int buttonCode)
 {
 	for (;;)
 	{
@@ -900,13 +900,30 @@ void DanilasGame::GraphSaveORRquest()
 		{
 			if (ButtonCod == 49)
 			{
-				ToFile.open("Graph.txt", ios::binary);
+				for (;;)
+				{
+					EraseMessage();
+
+					Print_Message_7();
+
+					string fileName;
+
+					getline(cin, fileName);
+
+					ToFile.open(fileName, ios::binary);
+
+					if (!ToFile.is_open())  continue;
+					
+					break;
+				}
 
 				for (short temp : EventsBuffer)
 				{
 					ToFile.write((char*)&temp, sizeof(short));
 				}
 				ToFile.close();
+
+				EraseMessage();
 
 				return;
 			}

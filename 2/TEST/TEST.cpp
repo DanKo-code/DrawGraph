@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+//#include <pair>
+#include <conio.h>
+
 
 #include <fstream>
 
@@ -143,6 +146,17 @@ int main()
 	Graf.TestMemory();*/
 	
 	////////////////////////////////////////////////////////////////
+
+	short test = _getch();
+
+	pair<char, int> pair_1('A',2);
+	pair<char, int> pair_2('B',2);
+
+	bool res = pair_1 == pair_2;
+
+	//pair_1.swap(pair_2);
+
+	//map.
 
 	vector<int> a = { 1,2,3,4 };
 

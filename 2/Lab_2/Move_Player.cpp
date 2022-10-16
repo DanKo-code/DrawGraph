@@ -2,6 +2,9 @@
 
 DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 {
+	Create_Field(200, 50);
+	Create_Player();
+
 	if (FileName != "VOID")
 	{
 		FromFile.open(FileName);
@@ -101,7 +104,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 			}
 
 			// Чтобы, при рисовании ребер не стереть существующий узел
-			for (int i = 0; i < NodesStorage.size(); i++)
+			for (size_t i = 0; i < NodesStorage.size(); i++)
 			{
 				if (this->PlayerX == NodesStorage[i]->X && this->PlayerY == NodesStorage[i]->Y)
 				{
@@ -141,7 +144,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 				break;
 			}
 
-			for (int i = 0; i < NodesStorage.size(); i++)
+			for (size_t i = 0; i < NodesStorage.size(); i++)
 			{
 				if (this->PlayerX == NodesStorage[i]->X && this->PlayerY == NodesStorage[i]->Y)
 				{
@@ -180,7 +183,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 				break;
 			}
 
-			for (int i = 0; i < NodesStorage.size(); i++)
+			for (size_t i = 0; i < NodesStorage.size(); i++)
 			{
 				if (this->PlayerX == NodesStorage[i]->X && this->PlayerY == NodesStorage[i]->Y)
 				{
@@ -219,7 +222,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 				break;
 			}
 
-			for (int i = 0; i < NodesStorage.size(); i++)
+			for (size_t i = 0; i < NodesStorage.size(); i++)
 			{
 				if (this->PlayerX == NodesStorage[i]->X && this->PlayerY == NodesStorage[i]->Y)
 				{
@@ -246,6 +249,8 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 		case 239:
 		{
 			if(!DownloadFromFileFlag) GraphSaveORRquest();
+
+			GoToMessagePosition();
 
 			return NodesStorage[0];
 		}
