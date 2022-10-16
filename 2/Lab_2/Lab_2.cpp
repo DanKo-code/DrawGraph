@@ -331,7 +331,7 @@ using namespace std;
 	{
 		system("mode con cols=300 lines=300");
 
-		string FileName = "Shiman_Lab_3";
+		string FileName = "Lab_3";
 
 		DanilasGame Graf;
 
@@ -342,6 +342,8 @@ using namespace std;
 		auto buf = Graf.Search_Breadth_or_Depth(test, "Breadth");
 
 		auto res = Graf.Dijkstras_Algorithm(test, buf);
+
+		Graf.Print_Dijkstras_Algorithm(res);
 
 		Graf.Print_Adjacency_List(Graf.Search_Breadth_or_Depth(test, "Breadth"));
 		cout << "\n\n";

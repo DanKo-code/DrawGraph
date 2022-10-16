@@ -541,7 +541,7 @@ public:
 		Node* temp = startNode;
 
 		// Общий вес прохода
-		int WeightNow = INT32_MAX;
+		int WeightNow = 0;
 
 		// Сравнить текущий указатель с проверенными узлами
 		auto CompareWithSelectedNodes = [&](Node* existing)
@@ -615,6 +615,14 @@ public:
 		}
 
 		return MinWeights;
+	}
+
+	void Print_Dijkstras_Algorithm(const vector<pair<Node,int>>& buffer)
+	{
+		for (size_t i = 0; i < buffer.size(); i++)
+		{
+			cout<< buffer[0].first.symbol << " -> " << buffer[i].first.symbol<<" = "<< buffer[i].second << endl;
+		}
 	}
 	
 };
