@@ -281,7 +281,6 @@ void DanilasGame::Double_Connection_with_New()
 	}
 }
 
-//Убрать!!!
 void DanilasGame::Double_Connection_with_Existing(Node* existing, Node* previous)
 {
 	Print_Message_3();

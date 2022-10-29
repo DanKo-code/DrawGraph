@@ -13,227 +13,6 @@
 
 using namespace std;
 
-
-/*
-	class Node
-	{
-	public:
-		Node(int data = 0, Node* FirstNext = nullptr, Node* SecondNext = nullptr, Node* ThirdNext = nullptr)
-		{
-			this->data = data;
-
-			this->CurrentNodeAddress = this;
-
-			this->FirstNext = FirstNext;
-			this->SecondNext = SecondNext;
-			this->ThirdNext = ThirdNext;
-		}
-
-		int data;
-
-		Node* CurrentNodeAddress;
-
-		Node* FirstNext;
-		Node* SecondNext;
-		Node* ThirdNext;
-
-
-	};
-
-	vector<Node> Search(Node* Start, string&& TypeOfSort)
-	{
-
-		list<Node> InQueue;
-		vector<Node> VisitedNodes;
-
-		InQueue.push_back(*Start);
-
-		 //Проверка на совпадение с посещенными узлами и узлами в очереди(листе)
-		auto Check_For_Repeat = [&](Node& test)
-		{
-			for (int i = 0; i < VisitedNodes.size(); i++)
-			{
-				if ( test.CurrentNodeAddress == VisitedNodes[i].CurrentNodeAddress) return true;
-			}
-
-			 //Проверка на совпадение с временным содержимым очереди(листа)
-			for (auto j = InQueue.begin(); j != InQueue.end(); j++)
-			{
-				if (test.CurrentNodeAddress == (*j).CurrentNodeAddress) return true;
-			}
-
-			return false;
-		};
-
-		if (TypeOfSort == "Breadth")
-		{
-			Node temp;
-
-			for (;;)
-			{
-				temp = InQueue.front();
-
-				if ((temp.FirstNext != nullptr) && (!(Check_For_Repeat(*temp.FirstNext))))
-				{
-					InQueue.push_back(*temp.FirstNext);
-				}
-
-				if ((temp.SecondNext != nullptr) && (!(Check_For_Repeat(*temp.SecondNext))))
-				{
-					InQueue.push_back(*temp.SecondNext);
-				}
-
-				if ((temp.ThirdNext != nullptr) && (!(Check_For_Repeat(*temp.ThirdNext))))
-				{
-					InQueue.push_back(*temp.ThirdNext);
-				}
-
-				VisitedNodes.push_back(temp);
-				InQueue.pop_front();
-
-				if (InQueue.empty()) break;
-			}
-		}
-		else if(TypeOfSort == "Depth")
-		{
-			Node temp;
-			
-			for (;;)
-			{
-				temp = InQueue.back();
-				InQueue.pop_back();
-
-				if ((temp.FirstNext != nullptr) && (!(Check_For_Repeat(*temp.FirstNext))))
-				{
-					InQueue.push_back(*(temp.FirstNext));
-				}
-
-				if ((temp.SecondNext != nullptr) && (!(Check_For_Repeat(*temp.SecondNext))))
-				{
-					InQueue.push_back(*temp.SecondNext);
-				}
-
-				if ((temp.ThirdNext != nullptr) && (!(Check_For_Repeat(*temp.ThirdNext))))
-				{
-					InQueue.push_back(*temp.ThirdNext);
-				}
-
-				VisitedNodes.push_back(temp);
-
-				if (InQueue.empty()) break;
-			}
-		}
-		
-		return VisitedNodes;
-	}
-
-	void Print_Adjacency_List(vector<Node>* GrafNodes)
-	{
-		for (int i = 0; i < (*GrafNodes).size(); i++)
-		{
-			cout << (*GrafNodes)[i].CurrentNodeAddress << " " << (*GrafNodes)[i].data;
-			
-			if (((*GrafNodes)[i].FirstNext == nullptr) && ((*GrafNodes)[i].SecondNext == nullptr) && ((*GrafNodes)[i].ThirdNext == nullptr)) continue;
-			cout<< "\n||\n||\n\\/\n";
-
-			if ((*GrafNodes)[i].FirstNext != nullptr)
-			{
-				cout << (*GrafNodes)[i].FirstNext->CurrentNodeAddress << ", " << (*GrafNodes)[i].FirstNext->data << "\n";
-			}
-			if ((*GrafNodes)[i].SecondNext != nullptr)
-			{
-				cout << (*GrafNodes)[i].SecondNext->CurrentNodeAddress << ", " << (*GrafNodes)[i].SecondNext->data << "\n";
-			}
-			if ((*GrafNodes)[i].ThirdNext != nullptr)
-			{
-				cout << (*GrafNodes)[i].ThirdNext->CurrentNodeAddress << ", " << (*GrafNodes)[i].ThirdNext->data << "\n";
-			}
-	
-			cout << "\n\n";
-		}
-
-		cout << "\n";
-	}
-
-	void Print_Ribs_List(vector<Node>* GrafNodes) 
-	{
-		for (int i = 0; i < (*GrafNodes).size(); i++)
-		{
-			if ((*GrafNodes)[i].FirstNext != nullptr)
-			{
-				cout << "{ " << (*GrafNodes)[i].CurrentNodeAddress << " " << (*GrafNodes)[i].data << ", " << (*GrafNodes)[i].FirstNext->CurrentNodeAddress<<" "<< (*GrafNodes)[i].FirstNext->data << " }\n";
-			}
-
-			if ((*GrafNodes)[i].SecondNext != nullptr)
-			{
-				cout << "{ " << (*GrafNodes)[i].CurrentNodeAddress << " " << (*GrafNodes)[i].data << ", " << (*GrafNodes)[i].SecondNext->CurrentNodeAddress << " " << (*GrafNodes)[i].SecondNext->data << " }\n";
-			}
-
-			if ((*GrafNodes)[i].ThirdNext != nullptr)
-			{
-				cout << "{ " << (*GrafNodes)[i].CurrentNodeAddress << " " << (*GrafNodes)[i].data << ", " << (*GrafNodes)[i].ThirdNext->CurrentNodeAddress << " " << (*GrafNodes)[i].ThirdNext->data << " }\n";
-			}
-		}
-	}
-
-	void Print_Adjacency_Matrix(vector<Node>* GrafNodes)
-	{
-		vector<int> StorageOf_X;
-		CONSOLE_SCREEN_BUFFER_INFO info;
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		auto GoToXY = [&](const short& x, const short& y)
-		{
-			COORD Axes = { x, y };
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Axes);
-
-			SetConsoleTextAttribute(hConsole, 4);
-			cout << "True";
-			SetConsoleTextAttribute(hConsole, 7);
-			
-			Axes = { (short)(StorageOf_X.back()+10),y };
-
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Axes);
-		};
-
-		cout << "\t\t";
-		for (int i = 0; i < (*GrafNodes).size(); i++)
-		{
-			GetConsoleScreenBufferInfo(hConsole, &info);
-			StorageOf_X.push_back(info.dwCursorPosition.X);
-			cout << (*GrafNodes)[i].CurrentNodeAddress << ", " << (*GrafNodes)[i].data << "\t";
-		}
-		
-
-		for (int i = 0; i < (*GrafNodes).size(); i++)
-		{
-			cout << "\n\n";
-
-			cout << (*GrafNodes)[i].CurrentNodeAddress << ", " << (*GrafNodes)[i].data;
-
-			for (int j = 0; j < (*GrafNodes).size(); j++)
-			{
-				if ( ((*GrafNodes)[i].FirstNext == (*GrafNodes)[j].CurrentNodeAddress) || ((*GrafNodes)[i].SecondNext == (*GrafNodes)[j].CurrentNodeAddress) || ((*GrafNodes)[i].ThirdNext == (*GrafNodes)[j].CurrentNodeAddress))
-				{
-					GetConsoleScreenBufferInfo(hConsole, &info);
-
-					GoToXY(StorageOf_X[j], info.dwCursorPosition.Y);
-				}
-			}
-			
-		}
-	}
-	
-	void Print_Nodes_Address_Data(vector<Node>* GrafNodes)
-	{
-		for (int i = 0; i !=(*GrafNodes).size(); i++)
-		{
-			cout<<i<<". "<< (*GrafNodes)[i].CurrentNodeAddress<<", " << (*GrafNodes)[i].data << "\n";
-		}
-	}
-	
-*/
-
 #ifdef Lab_2
 
 	int main()
@@ -335,30 +114,36 @@ using namespace std;
 
 		DanilasGame Graf;
 
+		//Graf.Floyd_Warshall_Algorithm();
+
 		auto test = Graf.Move_Player(FileName);
 
 		cout << "\n\n";
 
-		auto buf = Graf.Search_Breadth_or_Depth(test, "Breadth");
+		//Graf.Floyd_Warshall_Algorithm();
 
-		auto res = Graf.Dijkstras_Algorithm(test, buf);
+		auto buf = Graf.Search_Breadth_or_Depth(test[0], "Breadth");
+
+		auto res = Graf.Dijkstras_Algorithm(test[0], buf);
 
 		Graf.Print_Dijkstras_Algorithm(res);
 
-		Graf.Print_Adjacency_List(Graf.Search_Breadth_or_Depth(test, "Breadth"));
 		cout << "\n\n";
 
-		Graf.Print_Ribs_List(Graf.Search_Breadth_or_Depth(test, "Breadth"));
+		Graf.Print_Adjacency_List(Graf.Search_Breadth_or_Depth(test[0], "Breadth"));
 		cout << "\n\n";
 
-		Graf.Print_Adjacency_Matrix(Graf.Search_Breadth_or_Depth(test, "Breadth"));
+		Graf.Print_Ribs_List(Graf.Search_Breadth_or_Depth(test[0], "Breadth"));
 		cout << "\n\n";
 
-		Graf.Print_Nodes_Address_Symbol(Graf.Search_Breadth_or_Depth(test, "Breadth"));
+		Graf.Print_Adjacency_Matrix(Graf.Search_Breadth_or_Depth(test[0], "Breadth"));
+		cout << "\n\n";
+
+		Graf.Print_Nodes_Address_Symbol(Graf.Search_Breadth_or_Depth(test[0], "Breadth"));
 
 		system("pause");
 	}
 
 #endif // TEST
 
-
+	

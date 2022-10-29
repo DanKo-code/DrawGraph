@@ -30,7 +30,7 @@ private:
 	class Node
 	{
 	public:
-		
+
 		Node(int data = 0, char symbol = char(), short X = short(), short Y = short())
 		{
 			this->data = data;
@@ -79,12 +79,13 @@ private:
 	ifstream FromFile;
 
 	bool DownloadFromFileFlag = false;
+	bool HandleWeights = false;
 	int EventIndex = 0;
 
 	void Draw_Or_Downloads();
 
 	void GraphSaveORRquest();
-	
+
 
 	///////////////////////////////////////////Выставление весов ребер////////////////////////////////////////////////////////////
 
@@ -95,13 +96,37 @@ private:
 		EraseMessage();
 
 		Print_Message_6();
-			
+
 		string numberInput;
 
 		for (;;)
 		{
-			getline(cin, numberInput);
+			//getline(cin, numberInput);
 
+			
+			/////////////////////////////////////////////////////////////////////////////////
+			if (!DownloadFromFileFlag)
+			{
+				getline(cin, numberInput);
+			}
+			else
+			{
+				for (;;)
+				{
+					// пустой символ
+					if (From_File[EventIndex] == (short)'\0')
+					{
+						numberInput.push_back(From_File[EventIndex]);
+						++EventIndex;
+						break;
+					}
+
+					numberInput = From_File[EventIndex];
+					++EventIndex;
+				}
+			}
+			/////////////////////////////////////////////////////////////////////////////////
+			
 			for (char symbol : numberInput)
 			{
 				if (!isdigit(symbol))
@@ -111,41 +136,54 @@ private:
 					goto RESTART;
 				}
 			}
+			
+			/////////////////////////////////////////////////////////////////////////////////
+			// Запись в буффер для (возможной) последующей записи в файл 
+			if (!DownloadFromFileFlag)
+			{
+				for (short symbol : numberInput)
+				{
+					EventsBuffer.push_back(symbol);
+				}
 
+				EventsBuffer.push_back('\0');
+			}
+			/////////////////////////////////////////////////////////////////////////////////
+			
 			switch (path)
 			{
-				case 1:
-				{
-					(*node).FirstWeight = stoi(numberInput);
-					break;
-				}
-			case 2:
-				{
-					(*node).SecondWeight = stoi(numberInput);
-					break;
-				}
-			case 3:
-				{
-					(*node).ThirdWeight = stoi(numberInput);
-					break;
-				}
-			case 4:
-				{
-					(*node).FourthWeight = stoi(numberInput);
-					break;
-				}
-			case 5:
-				{
-					(*node).FifthWeight = stoi(numberInput);
-					break;
-				}
-			case 6:
-				{
-					(*node).SixthWeight = stoi(numberInput);
-					break;
-				}
+			case 1:
+			{
+				(*node).FirstWeight = stoi(numberInput);
+				break;
 			}
-					
+			case 2:
+			{
+				(*node).SecondWeight = stoi(numberInput);
+				break;
+			}
+			case 3:
+			{
+				(*node).ThirdWeight = stoi(numberInput);
+				break;
+			}
+			case 4:
+			{
+				(*node).FourthWeight = stoi(numberInput);
+				break;
+			}
+			case 5:
+			{
+				(*node).FifthWeight = stoi(numberInput);
+				break;
+			}
+			case 6:
+			{
+				(*node).SixthWeight = stoi(numberInput);
+				break;
+			}
+			}
+
 			break;
 		}
 
@@ -155,8 +193,8 @@ private:
 
 public:
 
-	Node* Move_Player(string FileName);
-	
+	vector<Node*> Move_Player(string FileName);
+
 private:
 
 	//Распечатка сообщений
@@ -198,9 +236,15 @@ private:
 		cout << "Введите название файла: ";
 	}
 
+	void Print_Message_8()
+	{
+		GoToMessagePosition();
+		cout << "Вводить веса ребер вручную или считать с файла(1 - да, 2 - нет): ";
+	}
+
 	void GoToMessagePosition()
-	{ 
-		GoToXY(0, (this->Field_Height + 5), ' '); 
+	{
+		GoToXY(0, (this->Field_Height + 5), ' ');
 	}
 	void EraseMessage()
 	{
@@ -269,9 +313,9 @@ private:
 		BLACK, BLUE, GREEN, CLOUDY_BLUE, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE, LIGHT_GREEN, LIGHT_CLOUDY_BLUE, LIGHT_RED, LIGHT_YELLOW, BRIGHT_WHITE
 	};
 
-	////////////////////////////////////////////////////Поиск в глубину/ширину + различные представления графа(вывод в консоль) /////////////////////////////////////////////////////////////////
-
 public:
+
+	////////////////////////////////////////////////////Поиск в глубину/ширину + различные представления графа(вывод в консоль) /////////////////////////////////////////////////////////////////
 	vector<Node> Search_Breadth_or_Depth(Node* Start, string&& TypeOfSort)
 	{
 
@@ -393,7 +437,7 @@ public:
 	{
 		for (size_t i = 0; i < (GrafNodes).size(); i++)
 		{
-			cout << (GrafNodes)[i].CurrentNodeAddress << " "<< (GrafNodes)[i].symbol;
+			cout << (GrafNodes)[i].CurrentNodeAddress << " " << (GrafNodes)[i].symbol;
 
 			if (((GrafNodes)[i].FirstNext == nullptr) &&
 				((GrafNodes)[i].SecondNext == nullptr) &&
@@ -570,7 +614,7 @@ public:
 					local_temp = &MinWeights[i].first;
 				}
 			}
-			
+
 			return local_temp;
 		};
 
@@ -587,7 +631,7 @@ public:
 			}
 		};
 
-		
+
 		// Вставили начальный узел в выходное хранилище 
 		MinWeights.emplace_back(*temp, 0);
 
@@ -617,12 +661,160 @@ public:
 		return MinWeights;
 	}
 
-	void Print_Dijkstras_Algorithm(const vector<pair<Node,int>>& buffer)
+	void Print_Dijkstras_Algorithm(const vector<pair<Node, int>>& buffer)
 	{
 		for (size_t i = 0; i < buffer.size(); i++)
 		{
-			cout<< buffer[0].first.symbol << " -> " << buffer[i].first.symbol<<" = "<< buffer[i].second << endl;
+			cout << buffer[0].first.symbol << " -> " << buffer[i].first.symbol << " = " << buffer[i].second << endl;
 		}
 	}
-	
+
+	////////////////////////////////////////////////////Алгоритм Флойда-Уоршелла/////////////////////////////////////////////////////////////////
+
+	void Floyd_Warshall_Algorithm()//(vector<Node*> graf)
+	{
+	setlocale(LC_ALL, "ru");
+
+	int d[6][6] =
+	{ {0, 28, 21, 59, 12, 27},
+	 {7, 0, 24, 1000, 21, 9},
+	 {9, 32, 0, 13, 11, 1000},
+	 {8, 1000, 5, 0, 16, 1000},
+	 {14, 13, 15, 10, 0, 22},
+	 {15, 18, 1000, 1000, 6, 0} };
+
+	int s[6][6] =
+	{ {0, 2, 3, 4, 5, 6},
+	 {1, 0, 3, 4, 5, 6},
+	 {1, 2, 0, 4, 5, 6},
+	 {1, 2, 3, 0, 5, 6},
+	 {1, 2, 3, 4, 0, 6},
+	 {1, 2, 3, 4, 5, 0} };
+
+	cout << "Матрица кратчайших путей между вершинами без промежуточных вершин: \n";
+
+	Change_Symbol_Color(RED);
+	cout << "  ";
+	for (size_t i = 0; i < 6; i++)
+	{
+	    cout << i << "\t";
+	}
+	Change_Symbol_Color(WHITE);
+
+	cout << "\n";
+
+	for (int i = 0; i < 6; i++)
+	{
+	    Change_Symbol_Color(RED);
+	    cout << i << " ";
+	    Change_Symbol_Color(WHITE);
+
+	    for (int j = 0; j < 6; j++)
+	    {
+	        cout << d[i][j] << "\t";
+	    }
+	    cout << "\n";
+	}
+
+
+	cout << "\nМатрица последовательности вершин: \n";
+
+	Change_Symbol_Color(RED);
+	cout << "  ";
+	for (size_t i = 0; i < 6; i++)
+	{
+	    cout << i << "\t";
+	}
+	Change_Symbol_Color(WHITE);
+
+	cout << "\n";
+
+	for (int i = 0; i < 6; i++)
+	{
+	    Change_Symbol_Color(RED);
+	    cout << i << " ";
+	    Change_Symbol_Color(WHITE);
+
+	    for (int j = 0; j < 6; j++)
+	    {
+	        cout << s[i][j] << "\t";
+	    }
+	    cout << "\n";
+	}
+
+
+	//Непосредственно алгоритм Флойда-Уоршелла
+	for (int m = 0; m < 6; ++m)
+	{
+	    for (int i = 0; i < 6; ++i)
+	    {
+	        for (int j = 0; j < 6; ++j)
+	        {
+	            if (d[i][j] > d[i][m] + d[m][j])
+	            {
+	                d[i][j] = d[i][m] + d[m][j];
+
+
+	                s[i][j] = m + 1;
+	                //s[i][j] = s[i][m];
+
+	            }
+	        }
+	    }
+	}
+
+
+	cout << "\nМатрица d после вычислений: \n";
+
+	Change_Symbol_Color(RED);
+	cout << "  ";
+	for (size_t i = 0; i < 6; i++)
+	{
+	    cout << i << "\t";
+	}
+	Change_Symbol_Color(WHITE);
+
+	cout << "\n";
+
+	for (int i = 0; i < 6; i++)
+	{
+	    Change_Symbol_Color(RED);
+	    cout << i << " ";
+	    Change_Symbol_Color(WHITE);
+
+	    for (int j = 0; j < 6; j++)
+	    {
+	        cout << d[i][j] << "\t";
+	    }
+	    cout << "\n";
+	}
+
+	cout << "\nМатрица s после вычислений: \n";
+
+	Change_Symbol_Color(RED);
+	cout << "  ";
+	for (size_t i = 0; i < 6; i++)
+	{
+	    cout << i << "\t";
+	}
+	Change_Symbol_Color(WHITE);
+
+	cout << "\n";
+
+	for (int i = 0; i < 6; i++)
+	{
+	    Change_Symbol_Color(RED);
+	    cout << i << " ";
+	    Change_Symbol_Color(WHITE);
+
+	    for (int j = 0; j < 6; j++)
+	    {
+	        cout << s[i][j] << "\t";
+	    }
+	    cout << "\n";
+	}
+		
+	}
 };
+
+

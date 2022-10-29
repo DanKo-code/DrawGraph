@@ -1,6 +1,6 @@
 #include "DrawGraf.h"
 
-DanilasGame::Node* DanilasGame::Move_Player(string FileName)
+vector<DanilasGame::Node*> DanilasGame::Move_Player(string FileName)
 {
 	Create_Field(200, 50);
 	Create_Player();
@@ -23,8 +23,12 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 		else
 		{
 			cout << "Open error!!!";
-			return nullptr;
+			return NodesStorage;
 		}
+
+		/*Print_Message_8();*/
+
+		/*ButtonCod = _getch();*/
 
 	}
 
@@ -252,7 +256,7 @@ DanilasGame::Node* DanilasGame::Move_Player(string FileName)
 
 			GoToMessagePosition();
 
-			return NodesStorage[0];
+			return NodesStorage;
 		}
 		}
 	}

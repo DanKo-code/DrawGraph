@@ -1,193 +1,184 @@
 #include <iostream>
+#include <Windows.h>
 #include <vector>
-//#include <pair>
+
 #include <conio.h>
-
-
-#include <fstream>
-
 using namespace std;
 
-/*class Node
+
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+enum Colors
 {
-public:
-
-	Node(int data = 0, char symbol = char(), short X = short(), short Y = short(), Node* FirstNext = nullptr, Node* SecondNext = nullptr, Node* ThirdNext = nullptr, Node* FourthNext = nullptr, Node* FifthNext = nullptr)
-	{
-		this->data = data;
-
-		this->symbol = symbol;
-
-		this->X = X;
-		this->Y = Y;
-
-		this->FirstNext = FirstNext;
-		this->SecondNext = SecondNext;
-		this->ThirdNext = ThirdNext;
-		this->FourthNext = FourthNext;
-		this->FifthNext = FifthNext;
-
-		this->CurrentNodeAddress = this;
-	}
-
-	int data = int();
-
-	char symbol = char();
-
-	short X = short();
-	short Y = short();
-
-	Node* CurrentNodeAddress;
-
-	Node* FirstNext;
-	Node* SecondNext;
-	Node* ThirdNext;
-	Node* FourthNext;
-	Node* FifthNext;
-
-};
-*/
-
-
-class DanilasGame
-{
-public:
-
-	class Node
-	{
-	public:
-
-		Node(int data = 0, char symbol = char(), short X = short(), short Y = short())
-		{
-			this->data = data;
-
-			this->symbol = symbol;
-
-			this->X = X;
-			this->Y = Y;
-
-			this->CurrentNodeAddress = this;
-		}
-
-		int data = int();
-
-		char symbol = char();
-
-		short X = short();
-		short Y = short();
-
-		Node* CurrentNodeAddress;
-
-		Node* FirstNext = nullptr;
-		Node* SecondNext = nullptr;
-		Node* ThirdNext = nullptr;
-		Node* FourthNext = nullptr;
-		Node* FifthNext = nullptr;
-		Node* SixthNext = nullptr;
-	};
-
-	vector<Node*> NodesStorage;
-	char NodeSymbol = 65;
-
-	short PlayerX = 10;
-	short PlayerY = 20;
-
-	void TestMemory()
-	{
-		NodesStorage.push_back(new Node(rand() % 100, NodeSymbol++, this->PlayerX, this->PlayerY));
-	}
+    BLACK, BLUE, GREEN, CLOUDY_BLUE, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE, LIGHT_GREEN, LIGHT_CLOUDY_BLUE, LIGHT_RED, LIGHT_YELLOW, BRIGHT_WHITE
 };
 
+void Change_Symbol_Color(const int& color)
+{
+    SetConsoleTextAttribute(hConsole, color);
+}
 
 int main()
 {
-	//Работа с файлами
-	/*
-	int a = 1;
-	short Short_buffer;
+    short ButtonCod_1 = '!';
 
-	vector<short> From_File;
+    short ButtonCod = _getch();
 
-	vector<short> buffer = { 1,2,23,4,7 };
-	ofstream tfile("Moves.txt", ios::binary);
+   
 
-	for (short temp : buffer)
-	{
-		tfile.write((char*)&temp, sizeof(short));
-	}
-	tfile.close();
+    /*vector<vector<int>> GrafWeightsBuffer;
 
-	ifstream ffile("C:/2курс, 1 сем/СД/2/TEST/Moves.txt");
+    for (size_t i = 0; i < 6; i++)
+    {
+        vector<int> temp;
+        for (size_t j = 0; j < 6; j++)
+        {
+            temp.push_back(j);           
+        }
 
-	if (ffile.is_open())
-	{
-		while (ffile.read((char*)&Short_buffer, sizeof(short)))
-		{
-			From_File.push_back(Short_buffer);
-		}
-	}
-	else
-	{
-		cout << "Open error!!!";
-	}
+        GrafWeightsBuffer.push_back(temp);
+    }
 
-	for (int i = 0; i < From_File.size(); i++)
-	{
-		cout << From_File[i] << endl;
-	}
+    int a = 1;*/
 
-	ffile.close();
-	*/
+    //setlocale(LC_ALL, "ru");
 
-	////////////////////////////////////////////////////////////////
+    //int d[6][6] =
+    //{ {0, 28, 21, 59, 12, 27},
+    // {7, 0, 24, 1000, 21, 9},
+    // {9, 32, 0, 13, 11, 1000},
+    // {8, 1000, 5, 0, 16, 1000},
+    // {14, 13, 15, 10, 0, 22},
+    // {15, 18, 1000, 1000, 6, 0} };
 
-	/*DanilasGame Graf;
+    //int s[6][6] =
+    //{ {0, 2, 3, 4, 5, 6},
+    // {1, 0, 3, 4, 5, 6},
+    // {1, 2, 0, 4, 5, 6},
+    // {1, 2, 3, 0, 5, 6},
+    // {1, 2, 3, 4, 0, 6},
+    // {1, 2, 3, 4, 5, 0} };
 
-	Graf.TestMemory();*/
-	
-	////////////////////////////////////////////////////////////////
+    //cout << "Матрица кратчайших путей между вершинами без промежуточных вершин: \n";
 
-	short test = _getch();
+    //Change_Symbol_Color(RED);
+    //cout << "  ";
+    //for (size_t i = 0; i < 6; i++)
+    //{
+    //    cout << i << "\t";
+    //}
+    //Change_Symbol_Color(WHITE);
 
-	pair<char, int> pair_1('A',2);
-	pair<char, int> pair_2('B',2);
+    //cout << "\n";
 
-	bool res = pair_1 == pair_2;
+    //for (int i = 0; i < 6; i++)
+    //{
+    //    Change_Symbol_Color(RED);
+    //    cout << i << " ";
+    //    Change_Symbol_Color(WHITE);
 
-	//pair_1.swap(pair_2);
-
-	//map.
-
-	vector<int> a = { 1,2,3,4 };
-
-	for (auto iter = a.cbegin(); iter != a.cend(); iter++)
-	{
-		if (*iter == 3)
-		{
-			int temp = *iter;
-
-			a.erase(iter);
-
-			a.push_back(temp);
-
-			
-
-			break;
-		}
+    //    for (int j = 0; j < 6; j++)
+    //    {
+    //        cout << d[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
 
 
-	}
+    //cout << "\nМатрица последовательности вершин: \n";
 
-	cout << endl;
+    //Change_Symbol_Color(RED);
+    //cout << "  ";
+    //for (size_t i = 0; i < 6; i++)
+    //{
+    //    cout << i << "\t";
+    //}
+    //Change_Symbol_Color(WHITE);
 
-	for (int temp : a)
-	{
-		cout << temp << " ";
-	}
+    //cout << "\n";
 
-	
+    //for (int i = 0; i < 6; i++)
+    //{
+    //    Change_Symbol_Color(RED);
+    //    cout << i << " ";
+    //    Change_Symbol_Color(WHITE);
+
+    //    for (int j = 0; j < 6; j++)
+    //    {
+    //        cout << s[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
 
 
+    ////Непосредственно алгоритм Флойда-Уоршелла
+    //for (int m = 0; m < 6; ++m)
+    //{
+    //    for (int i = 0; i < 6; ++i)
+    //    {
+    //        for (int j = 0; j < 6; ++j)
+    //        {
+    //            if (d[i][j] > d[i][m] + d[m][j])
+    //            {
+    //                d[i][j] = d[i][m] + d[m][j];
+    //                s[i][j] = m + 1;
+    //                //s[i][j] = s[i][m];
 
-	
+    //            }
+    //        }
+    //    }
+    //}
+
+
+    //cout << "\nМатрица d после вычислений: \n";
+
+    //Change_Symbol_Color(RED);
+    //cout << "  ";
+    //for (size_t i = 0; i < 6; i++)
+    //{
+    //    cout << i << "\t";
+    //}
+    //Change_Symbol_Color(WHITE);
+
+    //cout << "\n";
+
+    //for (int i = 0; i < 6; i++)
+    //{
+    //    Change_Symbol_Color(RED);
+    //    cout << i << " ";
+    //    Change_Symbol_Color(WHITE);
+
+    //    for (int j = 0; j < 6; j++)
+    //    {
+    //        cout << d[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
+
+    //cout << "\nМатрица s после вычислений: \n";
+
+    //Change_Symbol_Color(RED);
+    //cout << "  ";
+    //for (size_t i = 0; i < 6; i++)
+    //{
+    //    cout << i << "\t";
+    //}
+    //Change_Symbol_Color(WHITE);
+
+    //cout << "\n";
+
+    //for (int i = 0; i < 6; i++)
+    //{
+    //    Change_Symbol_Color(RED);
+    //    cout << i << " ";
+    //    Change_Symbol_Color(WHITE);
+
+    //    for (int j = 0; j < 6; j++)
+    //    {
+    //        cout << s[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
+
+
 }
